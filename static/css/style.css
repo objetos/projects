@@ -1,0 +1,117 @@
+body {
+    overflow: auto;
+}
+
+.container > header {
+    padding: 10px 10px 10px;
+}
+
+.box {
+    height: 250px;
+    display: flex;
+}
+
+.box > img {
+    max-height: 250px;
+}
+
+.box > p {
+    position: absolute;
+    margin-top: 200px;
+    font-size: x-large;
+    width: 100%;
+    color: white;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.container {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.show {
+    padding: 20px;
+    background-color: rgba(50, 50, 50, 0.2);
+    display: inline-block;
+    width: 100%;
+}
+
+.info {
+    padding-left: 20%;
+    display: block;
+}
+
+.info > h1 { 
+    text-align: center;
+    font-weight: 500;
+    font-size: 1.7em;
+    padding-bottom: 25px;
+}
+
+.info > p {
+    text-align: justify;
+    font-size: 1.4em;
+    padding-bottom: 12.5px;
+    color: #333;
+}
+
+.info > .numbers {
+    text-align: center;
+    font-size: 1.5em;
+    padding-bottom: 12.5px;
+    color: #555;
+}
+
+.author {
+    text-align: right;
+    display: block;
+}
+
+.impl {
+    width: 60%;
+    text-align: center
+}
+
+.impl > h1 {
+    text-align: center;
+    font-weight: 100;
+    font-size: 1.5em;
+    padding-bottom: 10px;
+}
+
+.carousel {
+    margin: auto;
+    width: 80%;
+}
+
+.carousel-indicators > li {
+    filter: invert(50%)
+}
+
+canvas {
+    height: 450px !important;
+    width: auto !important;
+}
+
+.carousel-caption {
+    left: 0%;
+    width: 100%;
+    padding-left: 10%;
+    padding-right: 10%;
+    background-color: rgba(0,0,0,0.5);    
+}
+
+.carousel-caption > p, .carousel-caption > p > a {
+    color: white;
+    -webkit-user-select: none; /* Chrome/Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+
+    /* Rules below not implemented in browsers yet */
+    -o-user-select: none;
+    user-select: none;
+}
+
+.main > p {
+    padding: 5px;
+}

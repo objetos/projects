@@ -1,0 +1,29 @@
+# Site settings
+baseurl = "https://juliansalomon.github.io/oopsource/"
+languageCode = "en-us"
+title = "Web Source - OOP"
+theme = "hugrid"
+
+contentdir = "content"
+datadir = "data"
+layoutdir = "layouts"
+publishdir = "docs"
+
+[params]
+    # Meta
+    title = "Web Source - OOP"
+    subtitle = "Gallery with some projects made in last courses of Object Oriented Programming."
+    author = "Julián Salomón"
+    description = "Source of Object Oriented Programming."
+    keywords = "OOP, source, web source, projects"
+
+    # Body background color
+    bodybgcolor = "#f9f9f9"
+
+    # Preview container button text
+    buttontext = "See the project"
+
+    # Footer text
+    footertext = "Made by [Codrops](http://tympanus.net/codrops/2013/03/19/thumbnail-grid-with-expanding-preview/), [Hugo](http://gohugo.io), [Pavel Kanyshev](http://github.com/aerohub), and [me] (http://github.com/JulianSalomon)"
+
+    custom_css = ['css/style.css']

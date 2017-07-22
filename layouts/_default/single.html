@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="{{ with .Site.LanguageCode }}{{ . }}{{ else }}en-US{{ end }}">
+    <head>
+        <link rel="stylesheet" href="{{ .Site.BaseURL }}css/bootstrap-carousel.css">
+        {{ partial "head.html" . }}
+        <script src="{{ .Site.BaseURL }}js/jquery.min.js"></script>
+        <script src="{{ .Site.BaseURL }}js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="{{ .Site.BaseURL }}js/p5.min.js"></script>
+        {{ range .Params.libraries }}
+            <script type="text/javascript" src="../js/{{ . }}"></script>        
+        {{ end }}
+        <script type="text/javascript" src="{{ .Site.BaseURL }}js/processing.min.js"></script>
+        {{ partial "scripts.html" . }}
+    </head>
+    <body>
+        <div class="container"> 
+            {{ partial "header.html" . }}
+            <div class="main">
+                <div class="show">
+                    {{ $srcPath := string (printf "%s%s%s%s" .Site.BaseURL "src/" .Params.source "/") }}
+                    <table>
+                        <td class="info">
+                            <h1> {{ .Params.name }} 
+                                {{ if .Params.oeis }}
+                                    {{ $oeisInfo := index (getJSON "http://oeis.org/search?fmt=json&q=id:" .Params.oeis).results 0 }}
+                                <span>
+                                    <a href="http://oeis.org/{{ .Params.oeis }}">
+                                        ({{ .Params.oeis }})
+                                    </a>
+                                </span>
+                                {{ end }}
+                            </h1>
+                            <p> 
+                                {{ .Description }}
+                                {{ if .Params.oeis }}
+                                    {{ $oeisInfo := index (getJSON "http://oeis.org/search?fmt=json&q=id:" .Params.oeis).results 0 }}
+                                    {{ $numbers := first 10 (split $oeisInfo.data ",") }}
+                                    {{ $author := (getJSON "https://en.wikipedia.org/w/api.php?action=opensearch&limit=1&search=" (replace $oeisInfo.author " " "%20")) }}
+                                    <br>
+                                    <span class="author">
+                                        <a href="{{ index (index $author 3) 0 }}">
+                                            {{ index (index $author 1) 0 }}.
+                                        </a>
+                                    </span>
+                                    <br>
+                                Example: {{ .Params.example }}
+                            </p>
+                            <br>
+                            <p class="numbers">
+                                {{ delimit $numbers ", " }}, ...
+                                {{ end }}
+                            </p>
+                        </td>
+                        <td class="impl">
+                            {{ if eq (len .Params.implementations) 1 }}
+                                <h1>Implementation</h1>
+                            {{ else }}
+                                <h1>Implementations</h1>
+                            {{ end }}
+                            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                                {{ if not (eq (len .Params.implementations) 1)}}
+                                    <!-- Indicators -->
+                                    <ol class="carousel-indicators">
+                                        {{ range $index, $impl := .Params.implementations }}
+                                            <li data-target="#myCarousel" data-slide-to="{{ $index }}" {{ if eq $index 0 }} class="active" {{end}}></li>
+                                        {{ end }}
+                                    </ol>
+                                {{ end }}
+                                <!-- Wrapper for slides -->
+                                <div class="carousel-inner" role="listbox">
+                                    {{ range $index, $impl := .Params.implementations }}
+                                        <div class="item {{ if eq $index 0 }} active {{ end }}">
+                                            <div id="{{ .code }}">
+                                                {{ if (eq .js "true") }}
+                                                    <script type="text/javascript" src="{{ $srcPath }}{{ .code }}.js"></script>
+                                                {{ else }}
+                                                    <canvas data-processing-sources="{{ $srcPath }}{{ .code }}.pde"/>
+                                                {{ end }}                            
+                                            </div>
+                                            <div class="carousel-caption">
+                                                <p>
+                                                    {{ if .description }}
+                                                        {{ .description }} <br>
+                                                    {{ end }}
+                                                    {{ if .keys }}
+                                                        {{ if (eq .js "false") }}
+                                                            Click on sketch then
+                                                        {{ end }}
+                                                        {{ .keys }} <br>
+                                                    {{ end }}
+                                                    Developed by: 
+                                                    {{ range .authors }}
+                                                    <a href="{{ .link }}">
+                                                        {{ .name }}
+                                                    </a>
+                                                    {{ end }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    {{ end }}
+                                </div>
+
+                                {{ if not (eq (len .Params.implementations) 1)}}
+                                    <!-- Left and right controls -->
+                                    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                                      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                      <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                                      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                      <span class="sr-only">Next</span>
+                                    </a>
+                                {{ end }}
+                            </div>
+                        </td>
+                    </table>
+                </div>
+                {{ partial "footer.html" . }}
+            </div>
+        </div>
+    </body>
+</html>

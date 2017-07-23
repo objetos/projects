@@ -7,7 +7,7 @@
         <script src="{{ .Site.BaseURL }}js/bootstrap.min.js"></script>
         <script type="text/javascript" src="{{ .Site.BaseURL }}js/p5.min.js"></script>
         {{ range .Params.libraries }}
-            <script type="text/javascript" src="../js/{{ . }}"></script>        
+            <script type="text/javascript" src="{{ $.Site.BaseURL}}/js/{{ . }}"></script>        
         {{ end }}
         <script type="text/javascript" src="{{ .Site.BaseURL }}js/processing.min.js"></script>
         {{ partial "scripts.html" . }}

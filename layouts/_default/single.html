@@ -118,5 +118,16 @@
                 {{ partial "footer.html" . }}
             </div>
         </div>
+        {{ if eq (len .Params.implementations) 1}}
+        <script>
+            $(window).load(function() {
+                var origWidth = document.getElementsByClassName("item active").item(0).offsetWidth,
+                childs = document.getElementsByClassName("item active").item(0).children,
+                width = 450 * childs.item(0).children.item(1).height / childs.item(0).children.item(1).width
+                childs.item(1).style.width = width + "px"
+                childs.item(1).style.left = ((origWidth - width)/2) + "px"
+            })
+        </script>
+        {{ end }}
     </body>
 </html>

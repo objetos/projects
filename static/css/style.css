@@ -94,7 +94,8 @@ canvas {
 }
 
 .carousel-caption {
-    left: 0%;
+    left: initial;
+    right: initial;
     width: 100%;
     padding-left: 10%;
     padding-right: 10%;

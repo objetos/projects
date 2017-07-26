@@ -30,14 +30,15 @@ body {
 }
 
 .show {
-    padding: 20px;
+    padding: 5%;
+    padding-left: 8%;
+    padding-top: 1%;
+    padding-bottom: 1%;
     background-color: rgba(50, 50, 50, 0.2);
-    display: inline-block;
     width: 100%;
 }
 
 .info {
-    padding-left: 20%;
     display: block;
 }
 

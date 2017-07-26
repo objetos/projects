@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ with .Site.LanguageCode }}{{ . }}{{ else }}en-US{{ end }}">
-    <head>
+    <head>        
         <link rel="stylesheet" href="{{ .Site.BaseURL }}css/bootstrap-carousel.css">
         {{ partial "head.html" . }}
         <script src="{{ .Site.BaseURL }}js/jquery.min.js"></script>
@@ -11,6 +11,7 @@
         {{ end }}
         <script type="text/javascript" src="{{ .Site.BaseURL }}js/processing.min.js"></script>
         {{ partial "scripts.html" . }}
+        <link rel="stylesheet" href="{{ .Site.BaseURL }}css/w3-row.css">
     </head>
     <body>
         <div class="container"> 
@@ -18,9 +19,9 @@
             <div class="main">
                 <div class="show">
                     {{ $srcPath := string (printf "%s%s%s%s" .Site.BaseURL "src/" .Params.source "/") }}
-                    <table>
-                        <td class="info">
-                            <h1> {{ .Params.name }} 
+                    <div class="w3-row">
+                      <div class="w3-container w3-third info ">
+                        <h1> {{ .Params.name }} 
                                 {{ if .Params.oeis }}
                                     {{ $oeisInfo := index (getJSON "http://oeis.org/search?fmt=json&q=id:" .Params.oeis).results 0 }}
                                 <span>
@@ -49,10 +50,10 @@
                             <p class="numbers">
                                 {{ delimit $numbers ", " }}, ...
                                 {{ end }}
-                            </p>
-                        </td>
-                        <td class="impl">
-                            {{ if eq (len .Params.implementations) 1 }}
+                            </p>                          
+                      </div>
+                      <div class="w3-container w3-twothird impl">
+                        {{ if eq (len .Params.implementations) 1 }}
                                 <h1>Implementation</h1>
                             {{ else }}
                                 <h1>Implementations</h1>
@@ -112,8 +113,8 @@
                                     </a>
                                 {{ end }}
                             </div>
-                        </td>
-                    </table>
+                      </div>
+                    </div>
                 </div>
                 {{ partial "footer.html" . }}
             </div>
@@ -125,6 +126,7 @@
                 childs = document.getElementsByClassName("item active").item(0).children,
                 width = 450 * childs.item(0).children.item(1).height / childs.item(0).children.item(1).width
                 childs.item(1).style.width = width + "px"
+                
                 childs.item(1).style.left = ((origWidth - width)/2) + "px"
             })
         </script>

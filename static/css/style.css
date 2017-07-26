@@ -69,8 +69,14 @@ body {
 }
 
 .impl {
-    width: 60%;
+    width: 100%;
     text-align: center
+}
+@media (min-width:601px){
+    .impl {
+        width: 80%;
+        text-align: center
+    }
 }
 
 .impl > h1 {
@@ -80,18 +86,15 @@ body {
     padding-bottom: 10px;
 }
 
-.carousel {
-    margin: auto;
-    width: 80%;
+@media (min-width:601px){
+    .carousel {
+        width: 80%;
+        margin: auto;
+    }
 }
 
 .carousel-indicators > li {
     filter: invert(50%)
-}
-
-canvas {
-    height: 450px !important;
-    width: auto !important;
 }
 
 .carousel-caption {

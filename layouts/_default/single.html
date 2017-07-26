@@ -134,13 +134,13 @@
                     maxHeight = $(window).height() - ($(document).height() - canvas[0].height),
                     maxCanvasWidth = canvas[0].width,
                     maxCanvasHeight = canvas[0].height
-                for (var i = 0; i < canvas.length; i++){
+                for (var i = 1; i < canvas.length; i++){
                     if (canvas[i].width / canvas[i].height > maxCanvasWidth / maxCanvasHeight) {
                         maxCanvasWidth = canvas[i].width
                         maxCanvasHeight = canvas[i].height
                     }
                 }
-                if ($(window).height() > 601)
+                if ($(window).width() > $(window).height())
                     maxWidth = maxHeight * maxWidth / (maxWidth * maxCanvasHeight / maxCanvasWidth)
                 else
                     maxHeight = (maxWidth * maxCanvasHeight / maxCanvasWidth)

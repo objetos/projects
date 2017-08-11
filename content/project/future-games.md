@@ -6,11 +6,6 @@ source = "future-games"
 url = "future-games"
 libraries=["p5.min.js", "p5.play.js", "p5.sound.js"]
 implementations =  [
-    {
-        code="future-games",
-        type="p5.js",
-        authors=[{name="Future UN", link="https://github.com/FutureUN"}],
-        source="https://github.com/FutureUN/FutureGame"
-    }
+    {code="future-games", type="p5.js", authors=[{name="Future UN", link="https://github.com/FutureUN"}], source="https://github.com/FutureUN/FutureGame"}
 ]
 +++

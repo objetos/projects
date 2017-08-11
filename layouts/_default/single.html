@@ -2,19 +2,20 @@
 <html lang="{{ with .Site.LanguageCode }}{{ . }}{{ else }}en-US{{ end }}">
     <head>        
         <link rel="stylesheet" href="{{ .Site.BaseURL }}css/bootstrap-carousel.css">
+        <link rel="stylesheet" href="{{ .Site.BaseURL }}css/w3.css">
         {{ partial "head.html" . }}
         <script src="{{ .Site.BaseURL }}js/jquery.min.js"></script>
         <script src="{{ .Site.BaseURL }}js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="{{ .Site.BaseURL }}js/p5.min.js"></script>
         {{ range .Params.libraries }}
             <script type="text/javascript" src="{{ $.Site.BaseURL}}/js/{{ . }}"></script>        
         {{ end }}
-        <script type="text/javascript" src="{{ .Site.BaseURL }}js/processing.min.js"></script>
         {{ partial "scripts.html" . }}
-        <link rel="stylesheet" href="{{ .Site.BaseURL }}css/w3.css">
     </head>
     <body>
         <div class="container"> 
+            <a href="{{ .Site.BaseURL }}">
+                <img src="{{ .Site.BaseURL }}images/back.png" class="back-btn">
+            </a>
             {{ partial "header.html" . }}
             <div class="main">
                 <div class="show">
@@ -72,10 +73,12 @@
                                     {{ range $index, $impl := .Params.implementations }}
                                         <div class="item {{ if eq $index 0 }} active {{ end }}">
                                             <div id="{{ .code }}">
-                                                {{ if (eq .js "true") }}
+                                                {{ if (eq .type "p5.js") }}
                                                     <script type="text/javascript" src="{{ $srcPath }}{{ .code }}.js"></script>
-                                                {{ else }}
+                                                {{ else if (eq .type "processing") }}
                                                     <canvas data-processing-sources="{{ $srcPath }}{{ .code }}.pde"></canvas>
+                                                {{ else if (eq .type "image") }}
+                                                    <img src="{{ $srcPath }}{{ .code }}.png" class="preview">
                                                 {{ end }}                            
                                             </div>
                                             <div class="carousel-caption">
@@ -84,16 +87,17 @@
                                                         {{ .description }} <br>
                                                     {{ end }}
                                                     {{ if .keys }}
-                                                        {{ if (eq .js "false") }}
+                                                        {{ if (eq .type "processing") }}
                                                             Click on sketch then
                                                         {{ end }}
                                                         {{ .keys }} <br>
                                                     {{ end }}
                                                     Developed by: 
                                                     {{ range .authors }}
-                                                    <a href="{{ .link }}">
-                                                        {{ .name }}
-                                                    </a>
+                                                    <a href="{{ .link }}">{{ .name }}</a>
+                                                    {{ end }}
+                                                    {{ if .source }}-
+                                                        <b><a href="{{ .source }}">View source</a></b>
                                                     {{ end }}
                                                 </p>
                                             </div>
@@ -126,33 +130,37 @@
                 clearInterval(everythingLoaded);
                 init(); // this is the function that gets called when everything is loaded
               }
-            }, 100);
+            }, 500);
 
             function init() {
-                var canvas = $("canvas"),
+                $("canvas").addClass("preview")
+                var preview = $(".preview"),
                     maxWidth = document.getElementById("carouselInner").offsetWidth,
-                    maxHeight = $(window).height() - ($(document).height() - canvas[0].height),
-                    maxCanvasWidth = canvas[0].width,
-                    maxCanvasHeight = canvas[0].height
-                for (var i = 1; i < canvas.length; i++){
-                    if (canvas[i].width / canvas[i].height > maxCanvasWidth / maxCanvasHeight) {
-                        maxCanvasWidth = canvas[i].width
-                        maxCanvasHeight = canvas[i].height
+                    maxHeight = $(window).height() - ($(document).height() - parseFloat(preview[0].offsetHeight)),
+                    infoHeight =  $(window).height() - ($(document).height() - $(".impl")[0].offsetHeight + $(".info")[0].offsetHeight),
+                    maxCanvasWidth = preview[0].offsetWidth,
+                    maxCanvasHeight = preview[0].offsetHeight
+                for (var i = 1; i < preview.length; i++){
+                    if (preview[i].offsetWidth / preview[i].offsetHeight > maxCanvasWidth / maxCanvasHeight) {
+                        maxCanvasWidth = preview[i].offsetWidth
+                        maxCanvasHeight = preview[i].offsetHeight
                     }
                 }
-                if ($(window).width() > $(window).height())
-                    maxWidth = maxHeight * maxWidth / (maxWidth * maxCanvasHeight / maxCanvasWidth)
+                if (infoHeight <= 0)
+                    maxHeight = $(".info")[0].offsetHeight - ($(".impl")[0].offsetHeight - preview[0].offsetHeight)
+                if ($(window).width() < $(window).height() | $(window).width() <= 600)
+                    maxHeight = maxWidth * maxCanvasHeight / maxCanvasWidth
                 else
-                    maxHeight = (maxWidth * maxCanvasHeight / maxCanvasWidth)
-                for (var i  = 0; i < canvas.length; i++) {
-                    if (canvas[i].width / canvas[i].height >= maxWidth / maxHeight) {
-                        canvas[i].style.height = maxWidth * canvas[i].height / canvas[i].width + "px"
-                        canvas[i].style.width = maxWidth + "px"
+                    maxWidth = maxHeight * maxCanvasWidth / maxCanvasHeight
+                for (var i  = 0; i < preview.length; i++) {
+                    if (preview[i].width / preview[i].height <= maxWidth / maxHeight) {
+                        preview[i].style.height = maxWidth * preview[i].height / preview[i].width + "px"
+                        preview[i].style.width = maxWidth + "px"
                     } else {
-                        canvas[i].style.width = maxHeight * canvas[i].width / canvas[i].height + "px"
-                        canvas[i].style.height = maxHeight + "px"
+                        preview[i].style.width = maxHeight * preview[i].width / preview[i].height + "px"
+                        preview[i].style.height = maxHeight + "px"
                     }
-                    canvas[i].parentElement.style.height = maxHeight + "px"
+                    preview[i].parentElement.style.height = maxHeight + "px"
                 }
                 var caption = $(".carousel-caption")
                 for (var i = 0; i < caption.length; i++){
@@ -162,14 +170,13 @@
                         }
                         break
                     }
-                }
-                
+                }                
                 if ({{len .Params.implementations}} == "1"){
                     var origWidth = $(".item")[0].offsetWidth,
                      caption = $(".item")[0].children[1],
-                     canvas = $("canvas")[0]
-                    caption.style.width = canvas.style.width
-                    caption.style.left = ((origWidth - parseFloat(canvas.style.width))/2) + "px"
+                     preview = $(".preview")[0]
+                    caption.style.width = preview.style.width
+                    caption.style.marginLeft = ((origWidth - parseFloat(preview.style.width))/2) + "px"
                 }
             }
         </script>

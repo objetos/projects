@@ -3,7 +3,12 @@ body {
 }
 
 .container > header {
-    padding: 10px 10px 10px;
+    padding: 10px 40px 40px;
+}
+
+h2 {
+    font-weight: 100;
+    text-align: center
 }
 
 .box {
@@ -27,6 +32,16 @@ body {
 .container {
     padding-left: 0;
     padding-right: 0;
+}
+
+.back-btn {
+    height: 0px;
+}
+@media (min-width:601px){
+    .back-btn {
+        height: 90px;
+        position: absolute;
+    }
 }
 
 .show {
@@ -69,14 +84,7 @@ body {
 }
 
 .impl {
-    width: 100%;
     text-align: center
-}
-@media (min-width:601px){
-    .impl {
-        width: 80%;
-        text-align: center
-    }
 }
 
 .impl > h1 {
@@ -86,9 +94,14 @@ body {
     padding-bottom: 10px;
 }
 
+canvas, .preview {
+    height: 2000px ;
+    width: auto ;
+}
+
 @media (min-width:601px){
     .carousel {
-        width: 80%;
+        width: 90%;
         margin: auto;
     }
 }
@@ -106,7 +119,7 @@ body {
     background-color: rgba(0,0,0,0.5);    
 }
 
-.carousel-caption > p, .carousel-caption > p > a {
+.carousel-caption > p, .carousel-caption > p > a, .carousel-caption > p > b > a{
     color: white;
     -webkit-user-select: none; /* Chrome/Safari */        
     -moz-user-select: none; /* Firefox */

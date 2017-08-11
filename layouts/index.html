@@ -7,21 +7,42 @@
 	<body>
 		<div class="container">	
             {{ partial "header.html" . }}
+            <h2>
+                <a id="hide-project" href="#">
+                    Workshops
+                </a>
+                |
+                <a id="hide-workshop" href="#">
+                    Projects
+                </a>
+            </h2>
 			<div class="main">
-				<ul id="og-grid" class="og-grid">
-					{{ range ( where .Site.Pages "Section" "source") }}
-					<li>
-						<a href="{{ .Params.source }}" data-largesrc="{{.Params.image}}" data-title="{{.Params.name}}" data-description="{{.Params.description }}">
+                <ul id="og-grid" class="og-grid">
+                    {{ range ( where .Site.Pages "Section" "project") }}
+                    <li class="project">
+                        <a href="{{ .Params.source }}" data-largesrc="images/{{.Params.source}}.png" data-title="{{.Params.name}}" data-description="{{.Params.description }}">
                             <div class="box">
-                                <img src="{{.Params.image}}" onerror="randomizer(this)">
+                                <img src="images/{{.Params.source}}.png" onerror="randomizer(this)">
                                 <p>
                                     {{.Params.name}}
                                 </p>
                             </div>
-						</a>
-					</li>
-					{{ end }}
-				</ul>
+                        </a>
+                    </li>
+                    {{ end }}
+                    {{ range ( where .Site.Pages "Section" "workshop") }}
+                    <li class="workshop">
+                        <a href="{{ .Params.source }}" data-largesrc="images/{{.Params.source}}.png" data-title="{{.Params.name}}" data-description="{{.Params.description }}">
+                            <div class="box">
+                                <img src="images/{{.Params.source}}.png" onerror="randomizer(this)">
+                                <p>
+                                    {{.Params.name}}
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    {{ end }}
+                </ul>
 				{{ partial "footer.html" . }}
 			</div>
 		</div>
@@ -34,6 +55,24 @@
                 box.style.width = "250px"
                 box.style.backgroundColor = "hsl(" + Math.random()*Math.random()*(1<<30)%360 + ", 55%, 45%)"
             }
+            
+            $(".project").hide()
+            $("#hide-workshop")[0].style.fontWeight = "100"
+            $("#hide-project")[0].style.fontWeight = "400"
+            
+            $("#hide-workshop").on('click', function() {
+                $(".workshop").hide()
+                $(".project").show()
+                $("#hide-workshop")[0].style.fontWeight = "400"
+                $("#hide-project")[0].style.fontWeight = "100"
+            });
+            
+            $("#hide-project").on('click', function() {
+                $(".workshop").show()
+                $(".project").hide()
+                $("#hide-workshop")[0].style.fontWeight = "100"
+                $("#hide-project")[0].style.fontWeight = "400"
+            });
         </script>
 	</body>
 </html>

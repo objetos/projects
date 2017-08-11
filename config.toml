@@ -7,7 +7,7 @@ theme = "hugrid"
 contentdir = "content"
 datadir = "data"
 layoutdir = "layouts"
-publishdir = "docs"
+
 
 [params]
     # Meta

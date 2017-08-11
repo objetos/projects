@@ -2,12 +2,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Web Source - OOP</title>
-    <link>https://juliansalomon.github.io/oopsource/tags/</link>
+    <link>https://objetos.github.io/web/tags/</link>
     <description>Recent content in Tags on Web Source - OOP</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     
-	<atom:link href="https://juliansalomon.github.io/oopsource/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://objetos.github.io/web/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
   </channel>

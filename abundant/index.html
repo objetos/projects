@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>        
+        <link rel="stylesheet" href="https://juliansalomon.github.io/oopsource/css/bootstrap-carousel.css">
+        <link rel="stylesheet" href="https://juliansalomon.github.io/oopsource/css/w3.css">
+        		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Web Source - OOP</title>
+		<meta name="description" content="Source of Object Oriented Programming." />
+		<meta name="keywords" content="OOP, source, web source, projects" />
+		<meta name="author" content="Julián Salomón" />
+		<meta name="generator" content="Hugo 0.26" />
+		<style>
+		body {
+		background: #f9f9f9;
+		color: ;
+		}
+		</style>
+		<link rel="stylesheet" type="text/css" href="https://juliansalomon.github.io/oopsource/css/default.css" />
+		<link rel="stylesheet" type="text/css" href="https://juliansalomon.github.io/oopsource/css/component.css" />
+		
+			<link rel="stylesheet" href="https://juliansalomon.github.io/oopsource/css/style.css">
+		
+		<script src="https://juliansalomon.github.io/oopsource/js/modernizr.custom.js"></script>
+
+        <script src="https://juliansalomon.github.io/oopsource/js/jquery.min.js"></script>
+        <script src="https://juliansalomon.github.io/oopsource/js/bootstrap.min.js"></script>
+        
+            <script type="text/javascript" src="https://juliansalomon.github.io/oopsource//js/p5.min.js"></script>        
+        
+            <script type="text/javascript" src="https://juliansalomon.github.io/oopsource//js/processing.min.js"></script>        
+        
+        		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script>
+			var $event = $.event,
+			$special,
+			resizeTimeout;
+
+			$special = $event.special.debouncedresize = {
+				setup: function() {
+					$( this ).on( "resize", $special.handler );
+				},
+				teardown: function() {
+					$( this ).off( "resize", $special.handler );
+				},
+				handler: function( event, execAsap ) {
+					var context = this,
+						args = arguments,
+						dispatch = function() {
+							event.type = "debouncedresize";
+							$event.dispatch.apply( context, args );
+						};
+
+					if ( resizeTimeout ) {
+						clearTimeout( resizeTimeout );
+					}
+
+					execAsap ?
+						dispatch() :
+						resizeTimeout = setTimeout( dispatch, $special.threshold );
+				},
+				threshold: 250
+			};
+
+			var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
+
+			$.fn.imagesLoaded = function( callback ) {
+				var $this = this,
+					deferred = $.isFunction($.Deferred) ? $.Deferred() : 0,
+					hasNotify = $.isFunction(deferred.notify),
+					$images = $this.find('img').add( $this.filter('img') ),
+					loaded = [],
+					proper = [],
+					broken = [];
+
+				if ($.isPlainObject(callback)) {
+					$.each(callback, function (key, value) {
+						if (key === 'callback') {
+							callback = value;
+						} else if (deferred) {
+							deferred[key](value);
+						}
+					});
+				}
+
+				function doneLoading() {
+					var $proper = $(proper),
+						$broken = $(broken);
+
+					if ( deferred ) {
+						if ( broken.length ) {
+							deferred.reject( $images, $proper, $broken );
+						} else {
+							deferred.resolve( $images );
+						}
+					}
+
+					if ( $.isFunction( callback ) ) {
+						callback.call( $this, $images, $proper, $broken );
+					}
+				}
+
+				function imgLoaded( img, isBroken ) {
+					if ( img.src === BLANK || $.inArray( img, loaded ) !== -1 ) {
+						return;
+					}
+
+					loaded.push( img );
+
+					if ( isBroken ) {
+						broken.push( img );
+					} else {
+						proper.push( img );
+					}
+
+					$.data( img, 'imagesLoaded', { isBroken: isBroken, src: img.src } );
+
+					if ( hasNotify ) {
+						deferred.notifyWith( $(img), [ isBroken, $images, $(proper), $(broken) ] );
+					}
+
+					if ( $images.length === loaded.length ){
+						setTimeout( doneLoading );
+						$images.unbind( '.imagesLoaded' );
+					}
+				}
+
+				if ( !$images.length ) {
+					doneLoading();
+				} else {
+					$images.bind( 'load.imagesLoaded error.imagesLoaded', function( event ){
+						imgLoaded( event.target, event.type === 'error' );
+					}).each( function( i, el ) {
+						var src = el.src;
+
+						var cached = $.data( el, 'imagesLoaded' );
+						if ( cached && cached.src === src ) {
+							imgLoaded( el, cached.isBroken );
+							return;
+						}
+
+						if ( el.complete && el.naturalWidth !== undefined ) {
+							imgLoaded( el, el.naturalWidth === 0 || el.naturalHeight === 0 );
+							return;
+						}
+
+						if ( el.readyState || el.complete ) {
+							el.src = BLANK;
+							el.src = src;
+						}
+					});
+				}
+
+				return deferred ? deferred.promise( $this ) : $this;
+			};
+
+			var Grid = (function() {
+
+				var $grid = $( '#og-grid' ),
+					$items = $grid.children( 'li' ),
+					current = -1,
+					previewPos = -1,
+					scrollExtra = 0,
+					marginExpanded = 10,
+					$window = $( window ), winsize,
+					$body = $( 'html, body' ),
+					transEndEventNames = {
+						'WebkitTransition' : 'webkitTransitionEnd',
+						'MozTransition' : 'transitionend',
+						'OTransition' : 'oTransitionEnd',
+						'msTransition' : 'MSTransitionEnd',
+						'transition' : 'transitionend'
+					},
+					transEndEventName = transEndEventNames[ Modernizr.prefixed( 'transition' ) ],
+					support = Modernizr.csstransitions,
+					settings = {
+						minHeight : 500,
+						speed : 350,
+						easing : 'ease'
+					};
+
+				function init( config ) {
+					
+					settings = $.extend( true, {}, settings, config );
+
+					$grid.imagesLoaded( function() {
+
+						saveItemInfo( true );
+						getWinSize();
+						initEvents();
+
+					} );
+
+				}
+
+				function addItems( $newitems ) {
+
+					$items = $items.add( $newitems );
+
+					$newitems.each( function() {
+						var $item = $( this );
+						$item.data( {
+							offsetTop : $item.offset().top,
+							height : $item.height()
+						} );
+					} );
+
+					initItemsEvents( $newitems );
+
+				}
+
+				function saveItemInfo( saveheight ) {
+					$items.each( function() {
+						var $item = $( this );
+						$item.data( 'offsetTop', $item.offset().top );
+						if( saveheight ) {
+							$item.data( 'height', $item.height() );
+						}
+					} );
+				}
+
+				function initEvents() {
+					
+					initItemsEvents( $items );
+					
+					$window.on( 'debouncedresize', function() {
+						
+						scrollExtra = 0;
+						previewPos = -1;
+						saveItemInfo();
+						getWinSize();
+						var preview = $.data( this, 'preview' );
+						if( typeof preview != 'undefined' ) {
+							hidePreview();
+						}
+
+					} );
+
+				}
+
+				function initItemsEvents( $items ) {
+					$items.on( 'click', 'span.og-close', function() {
+						hidePreview();
+						return false;
+					} ).children( 'a' ).on( 'click', function(e) {
+
+						var $item = $( this ).parent();
+						current === $item.index() ? hidePreview() : showPreview( $item );
+						return false;
+
+					} );
+				}
+
+				function getWinSize() {
+					winsize = { width : $window.width(), height : $window.height() };
+				}
+
+				function showPreview( $item ) {
+
+					var preview = $.data( this, 'preview' ),
+						position = $item.data( 'offsetTop' );
+
+					scrollExtra = 0;
+
+					if( typeof preview != 'undefined' ) {
+
+						if( previewPos !== position ) {
+							if( position > previewPos ) {
+								scrollExtra = preview.height;
+							}
+							hidePreview();
+						}
+						else {
+							preview.update( $item );
+							return false;
+						}
+						
+					}
+
+					previewPos = position;
+					preview = $.data( this, 'preview', new Preview( $item ) );
+					preview.open();
+
+				}
+
+				function hidePreview() {
+					current = -1;
+					var preview = $.data( this, 'preview' );
+					preview.close();
+					$.removeData( this, 'preview' );
+				}
+
+				function Preview( $item ) {
+					this.$item = $item;
+					this.expandedIdx = this.$item.index();
+					this.create();
+					this.update();
+				}
+
+				Preview.prototype = {
+					create : function() {
+						this.$title = $( '<h3></h3>' );
+						this.$description = $( '<p></p>' );
+						this.$href = $( '<a href="#">See the project</a>' );
+						this.$details = $( '<div class="og-details"></div>' ).append( this.$title, this.$description, this.$href );
+						this.$loading = $( '<div class="og-loading"></div>' );
+						this.$fullimage = $( '<div class="og-fullimg"></div>' ).append( this.$loading );
+						this.$closePreview = $( '<span class="og-close"></span>' );
+						this.$previewInner = $( '<div class="og-expander-inner"></div>' ).append( this.$closePreview, this.$fullimage, this.$details );
+						this.$previewEl = $( '<div class="og-expander"></div>' ).append( this.$previewInner );
+						this.$item.append( this.getEl() );
+						if( support ) {
+							this.setTransition();
+						}
+					},
+					update : function( $item ) {
+
+						if( $item ) {
+							this.$item = $item;
+						}
+						
+						if( current !== -1 ) {
+							var $currentItem = $items.eq( current );
+							$currentItem.removeClass( 'og-expanded' );
+							this.$item.addClass( 'og-expanded' );
+							this.positionPreview();
+						}
+
+						current = this.$item.index();
+
+						var $itemEl = this.$item.children( 'a' ),
+							eldata = {
+								href : $itemEl.attr( 'href' ),
+								largesrc : $itemEl.data( 'largesrc' ),
+								title : $itemEl.data( 'title' ),
+								description : $itemEl.data( 'description' )
+							};
+
+						this.$title.html( eldata.title );
+						this.$description.html( eldata.description );
+
+						if (eldata.href) {
+							this.$href.attr( 'href', eldata.href );
+							this.$href.show();
+						}
+						else {
+							this.$href.hide();
+						}
+
+						var self = this;
+						
+						if( typeof self.$largeImg != 'undefined' ) {
+							self.$largeImg.remove();
+						}
+
+						if( self.$fullimage.is( ':visible' ) ) {
+							this.$loading.show();
+							$( '<img/>' ).load( function() {
+								var $img = $( this );
+								if( $img.attr( 'src' ) === self.$item.children('a').data( 'largesrc' ) ) {
+									self.$loading.hide();
+									self.$fullimage.find( 'img' ).remove();
+									self.$largeImg = $img.fadeIn( 350 );
+									self.$fullimage.append( self.$largeImg );
+								}
+							} ).attr( 'src', eldata.largesrc );	
+						}
+
+					},
+					open : function() {
+
+						setTimeout( $.proxy( function() {	
+							this.setHeights();
+							this.positionPreview();
+						}, this ), 25 );
+
+					},
+					close : function() {
+
+						var self = this,
+							onEndFn = function() {
+								if( support ) {
+									$( this ).off( transEndEventName );
+								}
+								self.$item.removeClass( 'og-expanded' );
+								self.$previewEl.remove();
+							};
+
+						setTimeout( $.proxy( function() {
+
+							if( typeof this.$largeImg !== 'undefined' ) {
+								this.$largeImg.fadeOut( 'fast' );
+							}
+							this.$previewEl.css( 'height', 0 );
+							var $expandedItem = $items.eq( this.expandedIdx );
+							$expandedItem.css( 'height', $expandedItem.data( 'height' ) ).on( transEndEventName, onEndFn );
+
+							if( !support ) {
+								onEndFn.call();
+							}
+
+						}, this ), 25 );
+						
+						return false;
+
+					},
+					calcHeight : function() {
+
+						var heightPreview = winsize.height - this.$item.data( 'height' ) - marginExpanded,
+							itemHeight = winsize.height;
+
+						if( heightPreview < settings.minHeight ) {
+							heightPreview = settings.minHeight;
+							itemHeight = settings.minHeight + this.$item.data( 'height' ) + marginExpanded;
+						}
+
+						this.height = heightPreview;
+						this.itemHeight = itemHeight;
+
+					},
+					setHeights : function() {
+
+						var self = this,
+							onEndFn = function() {
+								if( support ) {
+									self.$item.off( transEndEventName );
+								}
+								self.$item.addClass( 'og-expanded' );
+							};
+
+						this.calcHeight();
+						this.$previewEl.css( 'height', this.height );
+						this.$item.css( 'height', this.itemHeight ).on( transEndEventName, onEndFn );
+
+						if( !support ) {
+							onEndFn.call();
+						}
+
+					},
+					positionPreview : function() {
+
+						var position = this.$item.data( 'offsetTop' ),
+							previewOffsetT = this.$previewEl.offset().top - scrollExtra,
+							scrollVal = this.height + this.$item.data( 'height' ) + marginExpanded <= winsize.height ? position : this.height < winsize.height ? previewOffsetT - ( winsize.height - this.height ) : previewOffsetT;
+						
+						$body.animate( { scrollTop : scrollVal }, settings.speed );
+
+					},
+					setTransition  : function() {
+						this.$previewEl.css( 'transition', 'height ' + settings.speed + 'ms ' + settings.easing );
+						this.$item.css( 'transition', 'height ' + settings.speed + 'ms ' + settings.easing );
+					},
+					getEl : function() {
+						return this.$previewEl;
+					}
+				}
+
+				return { 
+					init : init,
+					addItems : addItems
+				};
+
+			})();
+		</script>
+		<script>
+			$(function() {
+				Grid.init();
+			});
+		</script>
+
+    </head>
+    <body>
+        <div class="container"> 
+            <a href="https://juliansalomon.github.io/oopsource/">
+                <img src="https://juliansalomon.github.io/oopsource/images/back.png" class="back-btn">
+            </a>
+            			<header class="clearfix">
+                <h1><a href="https://juliansalomon.github.io/oopsource/">Web Source - OOP</a><span>Gallery with some projects made in last courses of Object Oriented Programming.</span></h1>
+			</header>
+            <div class="main">
+                <div class="show">
+                    
+                    <div class="w3-row">
+                      <div class="w3-container w3-third info ">
+                        <h1> Abundant numbers 
+                                
+                                    
+                                <span>
+                                    <a href="http://oeis.org/A005101">
+                                        (A005101)
+                                    </a>
+                                </span>
+                                
+                            </h1>
+                            <p> 
+                                An abundant number is a number for which the sum of its proper divisors is greater than the number itself. The amount by which the sum exceeds the number is the abundance.
+                                
+                                    
+                                    
+                                    
+                                    <br>
+                                    <span class="author">
+                                        <a href="https://en.wikipedia.org/wiki/N._J._A._Sloane">
+                                            N. J. A. Sloane.
+                                        </a>
+                                    </span>
+                                    <br>
+                                Example: 12 divisors are: 1, 2, 3, 4, 6. Sum of these is 16 and it&#39;s greater than 12.
+                            </p>
+                            <br>
+                            <p class="numbers">
+                                12, 18, 20, 24, 30, 36, 40, 42, 48, 54, ...
+                                
+                            </p>                          
+                      </div>
+                      <div class="w3-container w3-twothird impl">
+                        
+                                <h1>Implementations</h1>
+                            
+                            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                                
+                                    
+                                    <ol class="carousel-indicators">
+                                        
+                                            <li data-target="#myCarousel" data-slide-to="0"  class="active" ></li>
+                                        
+                                            <li data-target="#myCarousel" data-slide-to="1" ></li>
+                                        
+                                            <li data-target="#myCarousel" data-slide-to="2" ></li>
+                                        
+                                    </ol>
+                                
+                                
+                                <div id="carouselInner" class="carousel-inner" role="listbox">
+                                    
+                                        <div class="item  active ">
+                                            <div id="abundant0">
+                                                
+                                                    <script type="text/javascript" src="https://juliansalomon.github.io/oopsource/src/abundant/abundant0.js"></script>
+                                                                            
+                                            </div>
+                                            <div class="carousel-caption">
+                                                <p>
+                                                    
+                                                        Top circle represents the abundant number, bottom circles are the sum of divisors. <br>
+                                                    
+                                                    
+                                                        
+                                                        &#39;←&#39; or &#39;→&#39; will change terms, move the mouse change color. <br>
+                                                    
+                                                    Developed by: 
+                                                    
+                                                    <a href="https://github.com/FutureUN">Future UN</a>
+                                                    
+                                                    -
+                                                        <b><a href="https://github.com/FutureUN/PresentationSusseccionsOOP">View source</a></b>
+                                                    
+                                                </p>
+                                            </div>
+                                        </div>
+                                    
+                                        <div class="item ">
+                                            <div id="abundant1">
+                                                
+                                                    <canvas data-processing-sources="https://juliansalomon.github.io/oopsource/src/abundant/abundant1.pde"></canvas>
+                                                                            
+                                            </div>
+                                            <div class="carousel-caption">
+                                                <p>
+                                                    
+                                                    
+                                                        
+                                                            Click on sketch then
+                                                        
+                                                        &#39;&#43;&#39; or &#39;-&#39; will change terms. <br>
+                                                    
+                                                    Developed by: 
+                                                    
+                                                    <a href="https://github.com/catalina14">Catalina Aldana</a>
+                                                    
+                                                    
+                                                </p>
+                                            </div>
+                                        </div>
+                                    
+                                        <div class="item ">
+                                            <div id="fibonacci0">
+                                                
+                                                    <script type="text/javascript" src="https://juliansalomon.github.io/oopsource/src/abundant/fibonacci0.js"></script>
+                                                                            
+                                            </div>
+                                            <div class="carousel-caption">
+                                                <p>
+                                                    
+                                                    
+                                                        
+                                                        &#39;&#43;&#39; or &#39;-&#39; will change terms, &#39;&lt;&#39; or &#39;&gt;&#39; change representation type. <br>
+                                                    
+                                                    Developed by: 
+                                                    
+                                                    <a href="https://github.com/JulianSalomon">Julián Salomón</a>
+                                                    
+                                                    
+                                                </p>
+                                            </div>
+                                        </div>
+                                    
+                                </div>
+
+                                
+                                    
+                                    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                                      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                      <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                                      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                      <span class="sr-only">Next</span>
+                                    </a>
+                                
+                            </div>
+                      </div>
+                    </div>
+                </div>
+                				<p>Made by <a href="http://tympanus.net/codrops/2013/03/19/thumbnail-grid-with-expanding-preview/">Codrops</a>, <a href="http://gohugo.io">Hugo</a>, <a href="http://github.com/aerohub">Pavel Kanyshev</a>, and <a href="http://github.com/JulianSalomon">me</a></p>
+            </div>
+        </div>
+        <script>
+            
+            var everythingLoaded = setInterval(function() {
+              if (/loaded|complete/.test(document.readyState)) {
+                clearInterval(everythingLoaded);
+                init(); 
+              }
+            }, 500);
+
+            function init() {
+                $("canvas").addClass("preview")
+                var preview = $(".preview"),
+                    maxWidth = document.getElementById("carouselInner").offsetWidth,
+                    maxHeight = $(window).height() - ($(document).height() - parseFloat(preview[0].offsetHeight)),
+                    infoHeight =  $(window).height() - ($(document).height() - $(".impl")[0].offsetHeight + $(".info")[0].offsetHeight),
+                    maxCanvasWidth = preview[0].offsetWidth,
+                    maxCanvasHeight = preview[0].offsetHeight
+                for (var i = 1; i < preview.length; i++){
+                    if (preview[i].offsetWidth / preview[i].offsetHeight > maxCanvasWidth / maxCanvasHeight) {
+                        maxCanvasWidth = preview[i].offsetWidth
+                        maxCanvasHeight = preview[i].offsetHeight
+                    }
+                }
+                if (infoHeight <= 0)
+                    maxHeight = $(".info")[0].offsetHeight - ($(".impl")[0].offsetHeight - preview[0].offsetHeight)
+                if ($(window).width() < $(window).height() | $(window).width() <= 600)
+                    maxHeight = maxWidth * maxCanvasHeight / maxCanvasWidth
+                else
+                    maxWidth = maxHeight * maxCanvasWidth / maxCanvasHeight
+                for (var i  = 0; i < preview.length; i++) {
+                    if (preview[i].width / preview[i].height <= maxWidth / maxHeight) {
+                        preview[i].style.height = maxWidth * preview[i].height / preview[i].width + "px"
+                        preview[i].style.width = maxWidth + "px"
+                    } else {
+                        preview[i].style.width = maxHeight * preview[i].width / preview[i].height + "px"
+                        preview[i].style.height = maxHeight + "px"
+                    }
+                    preview[i].parentElement.style.height = maxHeight + "px"
+                }
+                var caption = $(".carousel-caption")
+                for (var i = 0; i < caption.length; i++){
+                    if (caption[i].offsetHeight > maxHeight/3) {
+                        for (var i = 0; i < caption.length; i++){
+                            caption[i].style.position = "initial"
+                        }
+                        break
+                    }
+                }                
+                if ( 3  == "1"){
+                    var origWidth = $(".item")[0].offsetWidth,
+                     caption = $(".item")[0].children[1],
+                     preview = $(".preview")[0]
+                    caption.style.width = preview.style.width
+                    caption.style.marginLeft = ((origWidth - parseFloat(preview.style.width))/2) + "px"
+                }
+            }
+        </script>
+    </body>
+</html>

@@ -1,5 +1,5 @@
 # Site settings
-baseurl = "https://juliansalomon.github.io/oopsource/"
+baseurl = "https://objetos.github.io/web/"
 languageCode = "en-us"
 title = "Web Source - OOP"
 theme = "hugrid"

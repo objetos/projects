@@ -1,5 +1,5 @@
 # Site settings
-baseurl = "https://objetos.github.io/web/"
+baseurl = "https://objetos.github.io/projects/"
 languageCode = "en-us"
 title = "UN Object Oriented Programming Course"
 theme = "hugrid"

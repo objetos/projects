@@ -36,7 +36,7 @@ Note that you will need a ```github``` user account ([sign-up here](https://gith
  $ hugo server
  ```
 
-the local site will be rendered by default at [http://localhost:1313](http://localhost:1313). Check that your project is found there
+ the local site will be rendered by default at [http://localhost:1313](http://localhost:1313). Check that your project is found there
 
 7. Commit your changes 
 

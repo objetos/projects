@@ -4,6 +4,15 @@
         {{ partial "head.html" . }}
         {{ template "_internal/google_analytics.html" . }}
 	</head>
+    <script>
+            function randomizer(e){
+                console.log(e)
+                var box = e.parentNode
+                box.removeChild(e)
+                box.style.width = "250px"
+                box.style.backgroundColor = "hsl(" + Math.random()*Math.random()*(1<<30)%360 + ", 55%, 45%)"
+            }
+    </script>
 	<body>
 		<div class="container">	
             {{ partial "header.html" . }}
@@ -52,14 +61,7 @@
 		</div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		{{ partial "scripts.html" . }}
-        <script>
-            function randomizer(e){
-                var box = e.parentNode
-                box.removeChild(e)
-                box.style.width = "250px"
-                box.style.backgroundColor = "hsl(" + Math.random()*Math.random()*(1<<30)%360 + ", 55%, 45%)"
-            }
-            
+        <script>    
             $(".project").hide()
             $("#hide-workshop")[0].style.fontWeight = "100"
             $("#hide-project")[0].style.fontWeight = "400"

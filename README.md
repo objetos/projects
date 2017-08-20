@@ -10,50 +10,53 @@ Note that you will need a ```github``` user account ([sign-up here](https://gith
 
 2. Clone your forked repository:
 
- ```sh
- $ git clone https://github.com/<username>/projects
- ```
+	 ```sh
+	 $ git clone https://github.com/<username>/projects
+	 ```
  
 3. Create a topic branch where to add your project
 
- ```sh
- $ git checkout -b <project-branch>
- ```
+	 ```sh
+	 $ git checkout -b <project-branch>
+	 ```
 
 4. Add your project info:
 
-4.1. Create a copy of the file "template" located in content/project/ folder and rename to "YOUR-PROJECT-NAME.md".
+	1. Create a copy of the file "template" located in content/project/ folder and rename to "YOUR-PROJECT-NAME.md".
 
-4.2. Modify the file filling all spaces with your project info. 
+	2. Modify the file filling all spaces in capital letters with your project info. 
 
-4.2.1. The libraries must be added to static/js/ folder.
-
-4.2.2. In type put only "processing" for processing implementations, "p5.js" to use p5.js implementations or image in other case.
-
-4.3. Add the image of your project to static/images/ naming it right this: "YOUR-PROJECT-NAME.png"
-
-4.4. Create the folder static/src/YOUR-PROJECT-NAME/ and add the source of your project there naming it right this: "YOUR-PROJECT-NAME.EXTENSION" (in case of type equal to processing EXTENSION=pde, for p5.js EXTENSION=js, and if image EXTENSION=png. Note: If you have multiple source files unify them to one.
-
-4.5. Move every asset to a new folder with the name of your project in the respective folder (Sound in static/sounds/, image in static/images) and configure it in your source code.
+	* The libraries must be added to static/js/ folder.
+	
+	* In type put only "processing" for processing implementations, "p5.js" to use p5.js implementations or "image" in other case.
+	
+	3. Add the image of your project to static/images/ naming it right this: "YOUR-PROJECT-NAME.png"
+	
+	4. Create the folder static/src/YOUR-PROJECT-NAME/ and add the source of your project there naming it right this: "YOUR-PROJECT-NAME.EXTENSION" (in case of type "processing" EXTENSION=pde, if "p5.js" then EXTENSION=js, and for "image" EXTENSION=png). 
+	
+		> Note: If you have multiple source files unify them to one.
+	
+	5. Move every asset to a new folder with the name of your project in the respective folder (Sound in static/sounds/, image in static/images) and configure it in your source code.
 
 5. Generate the website locally
 
- ```sh
- $ hugo
- ```
+	 ```sh
+	 $ hugo
+	 ```
  
 6. Test your changes locally
 
- ```sh
- $ hugo server
- ```
+ 	```sh
+ 	$ hugo server
+ 	```
 
-the local site will be rendered by default at [http://localhost:1313](http://localhost:1313). Check that your project is found there
+	the local site will be rendered by default at [http://localhost:1313](http://localhost:1313). Check that your project is found there
 
 7. Commit your changes 
 
- ```sh
- $ git commit -am'<project-name> by <authors-list> added'
- ```
+	 ```sh
+	 $ git commit -am'<project-name> by <authors-list> added'
+	 ```
 
 8. Open a [pull request](https://help.github.com/articles/creating-a-pull-request/). Once it's approved your project will be available at the course project webpage.
+

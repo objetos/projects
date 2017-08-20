@@ -19,28 +19,32 @@
 			<div class="main">
                 <ul id="og-grid" class="og-grid">
                     {{ range ( where .Site.Pages "Section" "project") }}
-                    <li class="project">
-                        <a href="{{ .Params.source }}" data-largesrc="images/{{.Params.source}}.png" data-title="{{.Params.name}}" data-description="{{.Params.description }}">
-                            <div class="box">
-                                <img src="images/{{.Params.source}}.png" onerror="randomizer(this)">
-                                <p>
-                                    {{.Params.name}}
-                                </p>
-                            </div>
-                        </a>
-                    </li>
+                        {{ if .Params }}
+                        <li class="project">
+                            <a href="{{ .Params.source }}" data-largesrc="images/{{.Params.source}}.png" data-title="{{.Params.name}}" data-description="{{.Params.description }}">
+                                <div class="box">
+                                    <img src="images/{{.Params.source}}.png" onerror="randomizer(this)">
+                                    <p>
+                                        {{.Params.name}}
+                                    </p>
+                                </div>
+                            </a>
+                        </li>
+                        {{ end }}
                     {{ end }}
                     {{ range ( where .Site.Pages "Section" "workshop") }}
-                    <li class="workshop">
-                        <a href="{{ .Params.source }}" data-largesrc="images/{{.Params.source}}.png" data-title="{{.Params.name}}" data-description="{{.Params.description }}">
-                            <div class="box">
-                                <img src="images/{{.Params.source}}.png" onerror="randomizer(this)">
-                                <p>
-                                    {{.Params.name}}
-                                </p>
-                            </div>
-                        </a>
-                    </li>
+                        {{ if .Params }}
+                        <li class="workshop">
+                            <a href="{{ .Params.source }}" data-largesrc="images/{{.Params.source}}.png" data-title="{{.Params.name}}" data-description="{{.Params.description }}">
+                                <div class="box">
+                                    <img src="images/{{.Params.source}}.png" onerror="randomizer(this)">
+                                    <p>
+                                        {{.Params.name}}
+                                    </p>
+                                </div>
+                            </a>
+                        </li>
+                        {{end}}
                     {{ end }}
                 </ul>
 				{{ partial "footer.html" . }}

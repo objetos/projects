@@ -1,0 +1,11 @@
++++
+name = "YOUR PROJECT NAME"
+description = "SHORT DESCRIPTION OF YOUR PROJECT"
+image = "images/YOUR-PROJECT-NAME.png"
+source = "YOUR-PROJECT-NAME"
+url = "YOUR-PROJECT-NAME"
+libraries=["LIBRARY-1.js", "LIBRARY-2.js", "LIBRARY-3.js"]
+implementations =  [
+    {code="YOUR-PROJECT-NAME", type="IMPLEMENTATION TYPE", authors=[{name="AUTHOR 1 NAME", link="https://github.com/AUTHOR-1-URL"}, {name="AUTHOR 2 NAME", link="https://github.com/AUTHOR-2-URL"}], source="https://github.com/USERNAME/SOURCE-REPOSITORY"}
+]
++++

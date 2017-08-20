@@ -20,7 +20,9 @@ Note that you will need a github user account ([sign-up here](https://github.com
  $ git checkout -b <project-branch>
  ```
 
-4. Add your project info
+4. Add your project info:
+
+<instructions missing>
 
 5. Generate the website locally
 

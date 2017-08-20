@@ -9,14 +9,19 @@ Requisites: [Hugo](https://gohugo.io/getting-started/installing/), [git]() and a
 Procedure:
 
 1. [Fork](https://help.github.com/articles/fork-a-repo/) me and you will end up with a ```https://github.com/<username>/projects``` repository
+
 1. Clone your forked repository:
- ```sh
- $ git clone https://github.com/<username>/projects
- ```
+
+  ```sh
+  $ git clone https://github.com/<username>/projects
+  ```
+
 1. Create a topic branch where to add your project
+
  ```sh
  $ git checkout -b <project-branch>
  ```
+
 1. Add your project info
 
 1. Generate the website locally

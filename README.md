@@ -4,7 +4,7 @@ Object Oriented Programming project gallery
 
 ## Open a pull request to contribute your work
 
-Note that you will need a ```github``` user account ([sign-up here](https://github.com/join?source=header-home) if you have't do so), and to install [git](https://git-scm.com/) and [Hugo](https://gohugo.io/getting-started/installing/) for the below procedure to work:
+Note that you will need a ```github``` user account ([sign-up here](https://github.com/join?source=header-home) if you haven't do so), and to install [git](https://git-scm.com/) and [Hugo](https://gohugo.io/getting-started/installing/) for the below procedure to work:
  
 1. [Fork](https://help.github.com/articles/fork-a-repo/) me and you will end up with a ```https://github.com/<username>/projects``` repository
 

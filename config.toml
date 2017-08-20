@@ -13,8 +13,8 @@ layoutdir = "layouts"
     # Meta
     title = "Object Oriented Programming"
     subtitle = "National University of Colombia Course Project Gallery"
-    author = ""
-    description = "Source of Object Oriented Programming."
+    author = "Refer to each projects"
+    description = "Object Oriented Programming projects collected during the last courses conducted at National University of Colombia"
     keywords = "OOP, source, web source, projects"
 
     # Body background color

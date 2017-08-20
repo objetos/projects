@@ -10,6 +10,16 @@ Procedure:
 
 1. [Fork](https://help.github.com/articles/fork-a-repo/) me and you will end up with a ```https://github.com/<username>/projects``` repository
 
+2. Install [Grunt](http://gruntjs.com/getting-started#installing-the-cli)
+
+3. Clone your forked repository:
+
+ ```sh
+ $ git clone https://github.com/<username>/projects
+ ``` 
+
+1. [Fork](https://help.github.com/articles/fork-a-repo/) me and you will end up with a ```https://github.com/<username>/projects``` repository
+
 1. Clone your forked repository:
 
  ```sh

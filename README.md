@@ -44,4 +44,4 @@ the local site will be rendered by default at [http://localhost:1313](http://loc
  $ git commit -am'<project-name> by <authors-list> added'
  ```
 
-8. Open a [pull request](https://help.github.com/articles/creating-a-pull-request/)
+8. Open a [pull request](https://help.github.com/articles/creating-a-pull-request/). Once it's approved your project will be available at the course project webpage.

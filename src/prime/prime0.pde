@@ -33,12 +33,11 @@ void keyPressed() {
     if (key == '>')
         rep = rep < 4 ? rep + 1 : 1;
     if (key == '<')
-        rep = rep > 0 ? rep - 1 : 4;
+        rep = rep > 1 ? rep - 1 : 4;
     if (key == '+')
         terms = terms < 30 ? terms + 1 : 1;
     if (key == '-')
         terms = terms > 1 ? terms - 1 : 24;
-       println(terms);
 }
 
 // Super abstract class Sequence

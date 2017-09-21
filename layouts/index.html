@@ -4,9 +4,8 @@
         {{ partial "head.html" . }}
         {{ template "_internal/google_analytics.html" . }}
 	</head>
-    <script>
+    <script>        
             function randomizer(e){
-                console.log(e)
                 var box = e.parentNode
                 box.removeChild(e)
                 box.style.width = "250px"
@@ -16,69 +15,142 @@
 	<body>
 		<div class="container">	
             {{ partial "header.html" . }}
-            <h2>
-                <a id="hide-project" href="#">
-                    Workshops
-                </a>
-                |
-                <a id="hide-workshop" href="#">
-                    Projects
-                </a>
-            </h2>
 			<div class="main">
-                <ul id="og-grid" class="og-grid">
-                    {{ range ( where .Site.Pages "Section" "project") }}
-                        {{ if .Params }}
-                        <li class="project">
-                            <a href="{{ .Params.source }}" data-largesrc="images/{{.Params.source}}.png" data-title="{{.Params.name}}" data-description="{{.Params.description }}">
-                                <div class="box">
-                                    <img src="images/{{.Params.source}}.png" onerror="randomizer(this)">
-                                    <p>
-                                        {{.Params.name}}
-                                    </p>
-                                </div>
+                <div class="w3-row">
+                    <div class="w3-threequarter w3-container">
+                        <h2>
+                            <a id="hide-project" href="#">
+                                Workshops
                             </a>
-                        </li>
-                        {{ end }}
-                    {{ end }}
-                    {{ range ( where .Site.Pages "Section" "workshop") }}
-                        {{ if .Params }}
-                        <li class="workshop">
-                            <a href="{{ .Params.source }}" data-largesrc="images/{{.Params.source}}.png" data-title="{{.Params.name}}" data-description="{{.Params.description }}">
-                                <div class="box">
-                                    <img src="images/{{.Params.source}}.png" onerror="randomizer(this)">
-                                    <p>
-                                        {{.Params.name}}
-                                    </p>
-                                </div>
+                            |
+                            <a id="hide-workshop" href="#">
+                                Projects
                             </a>
-                        </li>
-                        {{end}}
+                        </h2>
+                        <ul id="og-grid" class="og-grid">
+                            {{ range ( where .Site.Pages "Section" "project") }}
+                                {{ if .Params }}
+                                <li class="project" tag="{{range .Params.tag}}{{ . }} {{end}}">
+                                    <a href="{{ .Params.source }}" data-largesrc="images/{{.Params.source}}.png" data-title="{{.Params.name}}" data-description="{{.Params.description }}">
+                                        <div class="box">
+                                            <img src="images/{{.Params.source}}.png" onerror="randomizer(this)">
+                                            <p>
+                                                {{.Params.name}}
+                                            </p>
+                                        </div>
+                                    </a>
+                                </li>
+                                {{ end }}
+                            {{ end }}
+                            {{ range ( where .Site.Pages "Section" "workshop") }}
+                                {{ if .Params }}
+                                <li class="workshop" tag="{{range .Params.tag}}{{ . }} {{end}}">
+                                    <a href="{{ .Params.source }}" data-largesrc="images/{{.Params.source}}.png" data-title="{{.Params.name}}" data-description="{{.Params.description }}">
+                                        <div class="box">
+                                            <img src="images/{{.Params.source}}.png" onerror="randomizer(this)">
+                                            <p>
+                                                {{.Params.name}}
+                                            </p>
+                                        </div>
+                                    </a>
+                                </li>
+                                {{end}}
+                            {{ end }}
+                        </ul>        
+                        <a><div class="boxNoItems">
+                            <p>No items</p>
+                        </div></a>        
+                    </div>
+                    <div class="w3-quarter w3-container">                        
+                        <h2><a>Tags</a></h2>
+                        <div id=tags>
+                    {{ range .Site.Data.tags.project }}
+                    <div class="project checkbox">
+                        <input id="input{{ . }}" type="checkbox" class="tag" href="#" value="{{ . }}">
+                        <label for="input{{.}}">{{.}}</label>
+                    </div>
                     {{ end }}
-                </ul>
-				{{ partial "footer.html" . }}
+                    {{ range .Site.Data.tags.workshop }}
+                    <div class="workshop checkbox">
+                        <input id="input{{ . }}" type="checkbox" class="tag" href="#" value="{{ . }}">
+                        <label for="input{{.}}">{{.}}</label>
+                    </div>
+                    {{ end }}
+                </div>
+                    </div>
+                </div>
+                {{ partial "footer.html" . }}
 			</div>
 		</div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		{{ partial "scripts.html" . }}
-        <script>    
-            $(".project").hide()
-            $("#hide-workshop")[0].style.fontWeight = "100"
-            $("#hide-project")[0].style.fontWeight = "400"
-            
+        <script>            
             $("#hide-workshop").on('click', function() {
                 $(".workshop").hide()
                 $(".project").show()
+                $(".boxNoItems").hide()
                 $("#hide-workshop")[0].style.fontWeight = "400"
                 $("#hide-project")[0].style.fontWeight = "100"
+                for (var i = 0, j = 0; i < $("div.workshop > input").length ; i++)
+                    $("div.workshop > input")[i].checked = false
             });
             
             $("#hide-project").on('click', function() {
                 $(".workshop").show()
                 $(".project").hide()
+                $(".boxNoItems").hide()
                 $("#hide-workshop")[0].style.fontWeight = "100"
                 $("#hide-project")[0].style.fontWeight = "400"
+                for (var i = 0, j = 0; i < $("div.project > input").length ; i++)
+                    $("div.project > input")[i].checked = false
             });
+            
+            $(".tag").change(function(e){
+                var items = $("li.workshop")
+                var checkboxes = $("div.workshop")
+                if (e.target.parentElement.classList.contains("project")){
+                    items = $("li.project")
+                    checkboxes = $("div.project")
+                }
+                var tags = []
+                var displayed = items.length
+                for (var i = 0, j = 0; i < checkboxes.length ; i++) {
+                    var checkbox = checkboxes[i].firstElementChild
+                    if (checkbox.checked)
+                        tags[j++] = checkbox.value
+                }
+                for (var i = 0 ; i < items.length ; i++) {
+                    var item = items[i]
+                    for (var j = 0 ; j < tags.length ; j++) {
+                        var tag = tags[j]
+                        if (item.attributes["tag"].value.includes(tag)) {
+                            item.removeAttribute("style")
+                        } else {
+                            displayed--
+                            item.style.display = "none"
+                            break
+                        }
+                    }
+                    if (tags.length == 0)
+                        item.removeAttribute("style")
+                }
+                if (displayed == 0) {
+                    if (e.target.parentElement.parentElement.classList.contains("project"))
+                        $(".boxNoItems")[0].firstElementChild.firstChild.nodeValue = "No projects"
+                    else
+                        $(".boxNoItems")[0].firstElementChild.firstChild.nodeValue = "No workshops"
+                    $(".boxNoItems").show()
+                } else {
+                    $(".boxNoItems").hide()
+                }
+            });
+            
+            $(document).ready(function(){
+                $(".boxNoItems").hide()
+                $(".project").hide()
+                $("#hide-workshop")[0].style.fontWeight = "100"
+                $("#hide-project")[0].style.fontWeight = "400"
+            })
         </script>
 	</body>
 </html>

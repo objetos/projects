@@ -12,9 +12,6 @@
     </head>
     <body>
         <div class="container"> 
-            <a href="{{ .Site.BaseURL }}">
-                <img src="{{ .Site.BaseURL }}images/back.png" class="back-btn">
-            </a>
             {{ partial "header.html" . }}
             <div class="main">
                 <div class="show">
@@ -162,14 +159,17 @@
                     preview[i].parentElement.style.height = maxHeight + "px"
                 }
                 var caption = $(".carousel-caption")
-                for (var i = 0; i < caption.length; i++){
-                    if (caption[i].offsetHeight > maxHeight/3) {
-                        for (var i = 0; i < caption.length; i++){
-                            caption[i].style.position = "initial"
+                if ("{{ .Params.mouse_interactivity }}" == "yes")
+                        for (var i = 0; i < caption.length; i++)
+                            caption[i].style.position = "initial"                    
+                else
+                    for (var i = 0; i < caption.length; i++)
+                        if (caption[i].offsetHeight > maxHeight/3) {
+                            for (var i = 0; i < caption.length; i++){
+                                caption[i].style.position = "initial"
+                            }
+                            break
                         }
-                        break
-                    }
-                }                
                 if ({{len .Params.implementations}} == "1"){
                     var origWidth = $(".item")[0].offsetWidth,
                      caption = $(".item")[0].children[1],

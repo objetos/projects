@@ -15,6 +15,10 @@
   </url>
   
   <url>
+    <loc>https://objetos.github.io/projects/tangram/</loc>
+  </url>
+  
+  <url>
     <loc>https://objetos.github.io/projects/categories/</loc>
     <priority>0</priority>
   </url>

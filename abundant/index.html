@@ -471,9 +471,6 @@
     </head>
     <body>
         <div class="container"> 
-            <a href="https://objetos.github.io/projects/">
-                <img src="https://objetos.github.io/projects/images/back.png" class="back-btn">
-            </a>
             			<header class="clearfix">
 				<h1><a href="https://objetos.github.io/projects/">Object Oriented Programming</a><span>National University of Colombia Course Project Gallery</span></h1>
 			</header>
@@ -641,14 +638,17 @@
                     preview[i].parentElement.style.height = maxHeight + "px"
                 }
                 var caption = $(".carousel-caption")
-                for (var i = 0; i < caption.length; i++){
-                    if (caption[i].offsetHeight > maxHeight/3) {
-                        for (var i = 0; i < caption.length; i++){
-                            caption[i].style.position = "initial"
+                if ("" == "yes")
+                        for (var i = 0; i < caption.length; i++)
+                            caption[i].style.position = "initial"                    
+                else
+                    for (var i = 0; i < caption.length; i++)
+                        if (caption[i].offsetHeight > maxHeight/3) {
+                            for (var i = 0; i < caption.length; i++){
+                                caption[i].style.position = "initial"
+                            }
+                            break
                         }
-                        break
-                    }
-                }                
                 if ( 2  == "1"){
                     var origWidth = $(".item")[0].offsetWidth,
                      caption = $(".item")[0].children[1],

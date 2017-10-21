@@ -1,4 +1,4 @@
-/* @pjs font="../src/tangram/data/Florentia.ttf"; */
+/* @pjs font="../src/tangram/data/florentia.ttf"; */
 
 abstract class Shape {
   protected float   rot;

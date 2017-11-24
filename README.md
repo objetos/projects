@@ -22,23 +22,23 @@ Note that you will need a ```github``` user account ([sign-up here](https://gith
 
 4. Add your project info:
 
-	1. Create a copy of the file ```template``` located in ```content/project/``` folder and rename to ```YOUR-PROJECT-NAME.md```.
+	1. Create a copy of the ```template``` file found at ```content/project/``` and rename it to ```YOUR-PROJECT-NAME.md```.
 
-	2. Modify the file filling all spaces in capital letters with your project info. 
+	2. Fill out the file in capital letters according to your project information.
 
-        > The libraries must be added to ```static/js/``` folder.
+        > Add the needed libraries to ```static/js/```.
 
-        > In type put only ```processing``` for processing implementations, ```p5.js``` to use p5.js implementations or ```image``` in other case.
+        > Edit the _type_ field as ```processing``` for a Processing implementation, ```p5.js``` for p5.js, or ```image``` in any other case.
 
-        > For use of new tags first add it to ```data/tags.toml``` in the respective array.
+        > Add the tags that better describe your project. Note that tags should be present at the ```data/tags.toml``` array. If they are not, just add them there.
 	
-	3. Add the image of your project to ```static/images/``` naming it right this: ```YOUR-PROJECT-NAME.png```
+	3. Add a ```YOUR-PROJECT-NAME.png``` image to ```static/images/```.
 	
-	4. Create the folder ```static/src/YOUR-PROJECT-NAME/``` and add the source of your project there naming it right this: ```YOUR-PROJECT-NAME.EXTENSION``` (in case of type ```processing``` EXTENSION=pde, if ```p5.js``` then EXTENSION=js, and for ```image``` EXTENSION=png). 
+	4. Create the folder ```static/src/YOUR-PROJECT-NAME/``` and add the source files as: ```YOUR-PROJECT-NAME.EXTENSION``` (for ```processing``` use EXTENSION=pde, for ```p5.js``` use EXTENSION=js, and for ```image``` use EXTENSION=png).
 	
-		> If you have multiple source files unify them to one.
+		> If you have multiple source files merge into a single one.
 	
-	5. Move every asset to a new folder with the name of your project in the respective folder (Sound in ```static/sounds/```, image in ```static/images```) and configure it in your source code.
+	5. Move assets to a new folder with the name of your project (sounds should be placed at ```static/sounds/```, images in ```static/images```) and configure them in your source code.
 
 5. Generate the website locally
 
